@@ -1,4 +1,3 @@
-version: '3'
 services:
   n8n:
     # image: docker.n8n.io/n8nio/n8n
@@ -22,13 +21,9 @@ services:
       # - DB_POSTGRESDB_USER=<POSTGRES_USER>
       # - DB_POSTGRESDB_PASSWORD=<POSTGRES_PASSWORD>
 
-      # teaser ;)
-      # - N8N_CUSTOM_EXTENSIONS=/home/node/.n8n/custom_nodes
+
     volumes:
       - .:/home/node
-      # teaser ;)
-      # - ./custom_nodes:/home/node/.n8n/custom
-
       # stuff you want accessable from the host
       - ./mount_files:/mount_files
 
@@ -128,6 +123,14 @@ services:
         target: /qdrant/config/production.yaml
     volumes:
       - qdrant_data:/qdrant/storage
+  
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 configs:
   qdrant_config:
@@ -139,3 +142,4 @@ volumes:
   n8n_data:
   pg_langfuse_data:
   qdrant_data:
+  redis_data:
